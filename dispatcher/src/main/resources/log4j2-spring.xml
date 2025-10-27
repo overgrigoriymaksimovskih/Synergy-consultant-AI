@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <RollingFile name="WarnErrorLog" fileName="dispatcher/logs/warn/warn.log"
+                     filePattern="dispatcher/logs/warn/warn_error-%d{yyyy-MM-dd}-%i.log.gz">
+            <!-- Для Docker: раскомментируй ниже и закомментируй выше -->
+            <!-- fileName="/var/lib/dispatcher/logs/warn/warn.log" -->
+            <!-- filePattern="/var/lib/dispatcher/logs/warn/warn_error-%d{yyyy-MM-dd}-%i.log.gz" -->
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+
+        <RollingFile name="InfoLog" fileName="dispatcher/logs/info/info.log"
+                     filePattern="dispatcher/logs/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <!-- Для Docker: раскомментируй ниже и закомментируй выше -->
+            <!-- fileName="/var/lib/dispatcher/logs/info/info.log" -->
+            <!-- filePattern="/var/lib/dispatcher/logs/info-%d{yyyy-MM-dd}-%i.log.gz" -->
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
+
+        <RollingFile name="DebugLog" fileName="dispatcher/logs/debug/debug.log"
+                     filePattern="dispatcher/logs/debug-%d{yyyy-MM-dd}-%i.log.gz">
+            <!-- Для Docker: раскомментируй ниже и закомментируй выше -->
+            <!-- fileName="/var/lib/dispatcher/logs/debug/debug.log" -->
+            <!-- filePattern="/var/lib/dispatcher/logs/debug-%d{yyyy-MM-dd}-%i.log.gz" -->
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="DebugLog"/>
+            <AppenderRef ref="InfoLog"/>
+            <AppenderRef ref="WarnErrorLog"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
