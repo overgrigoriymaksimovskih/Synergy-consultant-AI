@@ -52,6 +52,18 @@
             </exclusions>
         </dependency>
 
+        <!--Для РЕАКТИВНОСТИ АССИНХРОННЫХ ВЕБ ЗАПРОСОВ-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <!--Для парсинга json -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
         <!--Для логов-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

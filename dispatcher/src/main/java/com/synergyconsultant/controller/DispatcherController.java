@@ -1,7 +1,7 @@
 package com.synergyconsultant.controller;
 
 import com.synergyconsultant.dto.MessageRequest;
-import com.synergyconsultant.mockservice.ProcessingService;
+import com.synergyconsultant.service_ai.ProcessingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
