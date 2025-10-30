@@ -5,15 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synergyconsultant.dto.MessageRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Component
 public class MessageListHandler {
 
-    // История сообщений для контекста (ограничена 10 для простоты)
-    private final List<Map<String, Object>> messageHistory = new ArrayList<>();
     private final ObjectMapper objectMapper;
 
     public MessageListHandler(ObjectMapper objectMapper) {
@@ -58,19 +54,6 @@ public class MessageListHandler {
             System.out.println("Error parsing AI response: " + e.getMessage());
             return null;
         }
-    }
-
-    /**
-     * Добавляет сообщение в историю и ограничивает размер списка.
-     * @param message Сообщение для добавления.
-     * @return Обновленный список сообщений.
-     */
-    public List<Map<String, Object>> addMessageToMessageList(Map<String, Object> message) {
-        messageHistory.add(message);
-        if (messageHistory.size() > 10) {
-            messageHistory.remove(0);
-        }
-        return new ArrayList<>(messageHistory); // Возвращаем копию для безопасности
     }
 
     /**

@@ -21,8 +21,8 @@ public class AiClient {
     @Value("${ai.agent.access.id}")
     private String agentAccessId;
 
-    @Value("${ai.api.authorization}")
-    private String authorizationHeader;
+//    @Value("${ai.api.authorization}")
+//    private String authorizationHeader;
 
     @Value("${ai.max.completion.tokens}")
     private int maxCompletionTokens;
@@ -50,7 +50,7 @@ public class AiClient {
         Mono<String> responseMono = webClient.post()
                 .uri(url)
                 .header("Content-Type", "application/json")
-                .header("Authorization", authorizationHeader)
+//                .header("Authorization", authorizationHeader)
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
