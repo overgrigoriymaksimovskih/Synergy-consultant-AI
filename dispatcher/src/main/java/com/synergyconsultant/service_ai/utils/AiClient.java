@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,9 @@ public class AiClient {
     @Value("${ai.max.completion.tokens}")
     private int maxCompletionTokens;
 
+    @Value("${ai.system.prompt}")
+    private String aiSystemPrompt;
+
     public AiClient(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.build();
     }
@@ -37,11 +41,22 @@ public class AiClient {
      * @return CompletableFuture с сырым ответом от API.
      */
     public CompletableFuture<String> getAnswerFromAi(List<Map<String, Object>> messages) {
+        // Создаём копию сообщений и добавляем system prompt как первую запись, это позволит кэшировать системный промпт
+        // и не тратить на него токены
+        List<Map<String, Object>> messagesWithSystem = new ArrayList<>(messages);
+        if (aiSystemPrompt != null && !aiSystemPrompt.trim().isEmpty()) {
+            messagesWithSystem.add(0, Map.of("role", "system", "content", aiSystemPrompt));
+            System.out.println("Added system prompt to messages. First message: " + aiSystemPrompt.substring(0, Math.min(50, aiSystemPrompt.length())) + "...");
+        } else {
+            System.out.println("System prompt is empty, sending without system message.");
+        }
+
         String url = apiUrl.replace("{agent_access_id}", agentAccessId);
         System.out.println("API URL: " + url);
 
         Map<String, Object> requestBody = Map.of(
-                "messages", messages,
+                //Отправляем всю историю с добавленным в начало системным промптом
+                "messages", messagesWithSystem,
                 "max_completion_tokens", maxCompletionTokens,
                 "stream", false
         );

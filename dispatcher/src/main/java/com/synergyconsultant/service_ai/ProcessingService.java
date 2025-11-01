@@ -24,22 +24,22 @@ public class ProcessingService {
     private Integer messageHistoryMax;
 
 
+
+
     private final AiClient aiClient;
     private final MessageListHandler messageListHandler;
     private final MessageListSummer messageListSummer;
-
-    // История сообщений
     private final List<Map<String, Object>> messageHistory = new ArrayList<>();
 
     public ProcessingService(AiClient aiClient, MessageListHandler messageListHandler, MessageListSummer messageListSummer) {
         this.aiClient = aiClient;
         this.messageListHandler = messageListHandler;
         this.messageListSummer = messageListSummer;
-        messageHistory.add(Map.of("role", "system", "content", "чат начался"));
+        messageHistory.add(Map.of("role", "user", "content", "чат начался "));
     }
 
     public CompletableFuture<String> processAsync(MessageRequest request) {
-        // Проверяем размер истории перед добавлением, он может быть 6 и больше если операция суммеризации еще не завершилась
+        // Проверяем размер истории перед добавлением, он может быть messageHistoryMax и больше если операция суммеризации еще не завершилась
         if (messageHistory.size() >= messageHistoryMax) {
             // Возвращаем сообщение о ожидании, не добавляя user-сообщение
             return CompletableFuture.completedFuture("{\"message\": \"Пожалуйста, подожди немного, я обрабатываю предыдущие сообщения.\"}");

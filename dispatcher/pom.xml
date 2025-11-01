@@ -20,6 +20,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <io.weaviate.version>5.2.1</io.weaviate.version>
     </properties>
 
     <dependencies>
@@ -56,6 +57,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <!-- Для ВЕКТОРНОЙ БД С ПАМЯТЬЮ ПЕРЕПИСКИ Weaviate Java client -->
+        <dependency>
+            <groupId>io.weaviate</groupId>
+            <artifactId>client</artifactId>
+            <version>${io.weaviate.version}</version>
         </dependency>
 
         <!--Для парсинга json -->

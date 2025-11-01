@@ -85,3 +85,4 @@ public class MessageListSummer {
         return null;
     }
 }
+
